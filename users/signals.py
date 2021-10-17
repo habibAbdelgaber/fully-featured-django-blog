@@ -8,7 +8,9 @@ from django.dispatch import receiver
 #         Profile.objects.create(user=instance)
 
 def post_save_user(sender, instance, created, **kwargs):
+    # user = instance
     if created:
+        # Profile.objects.create(user=user)
         Profile.objects.create(user=instance)
 
 post_save.connect(post_save_user, sender=User)

@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     # local apps
     'users.apps.UsersConfig',
     'posts.apps.PostsConfig',
+    'subscribers.apps.SubscribersConfig',
 
     # 3rd party apps
     'crispy_forms',
