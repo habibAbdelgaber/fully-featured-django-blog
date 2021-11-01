@@ -20,12 +20,42 @@ class Post(models.Model):
     def __str__(self):
         return self.title
 
+    
+    @property
+    def get_comment_count(self):
+        # comment_count = self.comment_set.all().count()
+        # return comment_count
+        return self.comment_set.all().count()
+
+    @property
+    def get_view_count(self):
+        # comment_count = self.postview_set.all().count()
+        # return comment_count
+        return self.postview_set.all().count()
+
+    # @property
+    # def get_view_count(self):
+    #     # comment_count = self.postview_set.all().count()
+    #     # return comment_count
+    #     return Post.objects.filter(comment__post=comment).count()
+        
+    @property
+    def get_like_count(self):
+        # comment_count = self.postlike_set.all().count()
+        # return comment_count
+        return self.postlike_set.all().count()
+
     def get_absolute_url(self):
         return reverse('posts:detail', kwargs={'slug': self.slug})
+    
+    
+    def get_like_url(self):
+        return reverse('posts:like', kwargs={'slug': self.slug})
 
 class Comment(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     post = models.ForeignKey(Post, blank=True, null=True, on_delete=models.CASCADE)
+    content = models.TextField(blank=True, null=True)
     timestamp = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):

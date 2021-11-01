@@ -1,5 +1,6 @@
 {% extends 'account/base.html' %}
 {% load static %}
+{% load crispy_forms_tags %}
 
 {% block content %}
 <div class="container">
@@ -27,8 +28,14 @@
               </a>
               <div class="d-flex align-items-center flex-wrap">
                 <div class="date"><i class="fa fa-clock"></i>{{ object.timestamp|timesince }} ago</div>
-                <div class="views"><i class="fa fa-eye"></i> 500</div>
-                <div class="comments meta-last"><i class="fa fa-comment"></i>12</div>
+                <div class="views">
+                  <a href="{{object.get_like_url}}">
+                    <i class="fa fa-thumbs-up"></i>
+                  </a>
+                  {{object.get_like_count}}
+                </div>
+                <div class="views"><i class="fas fa-eye"></i>{{object.get_view_count}}</div>
+                <div class="comments meta-last"><i class="fa fa-comment"></i>{{object.get_comment_count}}</div>
               </div>
             </div>
             <div class="post-body">
@@ -81,39 +88,38 @@
               </div>
               <div class="comment">
                 <div class="comment-header d-flex justify-content-between">
+                  {% for comment in object.comment_set.all %}
                   <div class="user d-flex align-items-center">
+
                     <div class="image"><img src="img/user.svg" alt="..." class="img-fluid rounded-circle"></div>
                     <div class="title"><strong>John Doe</strong><span class="date">May 2016</span></div>
                   </div>
                 </div>
                 <div class="comment-body">
-                  <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut
-                    labore et dolore magna aliqua. Ut enim ad minim veniam.</p>
+                  <p>
+                    {{ comment.content }}
+                  </p>
                 </div>
+                {% endfor %}
               </div>
             </div>
             <div class="add-comment">
               <header>
                 <h3 class="h6">Leave a reply</h3>
               </header>
-              <form action="#" class="commenting-form">
+              {% if request.user.is_authenticated %}
+              <form action="." class="commenting-form" method='POST'>
+                {% csrf_token %}
                 <div class="row">
-                  <div class="form-group col-md-6">
-                    <input type="text" name="username" id="username" placeholder="Name" class="form-control">
-                  </div>
-                  <div class="form-group col-md-6">
-                    <input type="email" name="username" id="useremail"
-                      placeholder="Email Address (will not be published)" class="form-control">
-                  </div>
                   <div class="form-group col-md-12">
-                    <textarea name="usercomment" id="usercomment" placeholder="Type your comment"
-                      class="form-control"></textarea>
+                    {{ form|crispy}}
                   </div>
                   <div class="form-group col-md-12">
                     <button type="submit" class="btn btn-secondary">Submit Comment</button>
                   </div>
                 </div>
               </form>
+              {% endif %}
             </div>
           </div>
         </div>
@@ -144,6 +150,7 @@
               <div class="image"><img src="{{latest.img.url}}" alt="..." class="img-fluid"></div>
               <div class="title"><small>{{latest.title}}</small>
                 <div class="d-flex align-items-center">
+                  <div class="views"><i class="fas fa-thumbs-up"></i> 500</div>
                   <div class="views"><i class="fa fa-eye"></i> 500</div>
                   <div class="comments"><i class="fa fa-comment"></i>12</div>
                 </div>
