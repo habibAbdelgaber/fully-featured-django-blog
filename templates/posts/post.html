@@ -9,37 +9,36 @@
     <main class="post blog-post col-lg-8">
       <div class="container">
         <div class="post-single">
-          <div class="post-thumbnail"><img src="{{ object.img.url }}" alt="..." class="img-fluid"></div>
+          <div class="post-thumbnail"><img src="{{object.img.url}}" alt="..." class="img-fluid"></div>
           <div class="post-details">
             <div class="post-meta d-flex justify-content-between">
               <div class="category">
                 {% for cat in object.categories.all %}
-                <a href="#">{{cat.name}}</a>
+                <a href="#" class='badge badge-dark text-white py-1'>{{cat}}</a>
                 {% endfor %}
               </div>
             </div>
-            <h1>Diversity in Engineering: The Effect on Questions<a href="#"><i class="fa fa-bookmark-o"></i></a></h1>
+            <h1>{{object.title}}<a href="#"><i class="fa fa-bookmark-o"></i></a></h1>
             <div class="post-footer d-flex align-items-center flex-column flex-sm-row"><a href="#"
                 class="author d-flex align-items-center flex-wrap">
                 <div class="avatar"><img src="{{object.author.profile.profile_picture.url}}" alt="..."
-                    class="img-fluid">
-                </div>
+                    class="img-fluid"></div>
                 <div class="title"><span>{{object.author}}</span></div>
               </a>
               <div class="d-flex align-items-center flex-wrap">
-                <div class="date"><i class="fa fa-clock"></i>{{ object.timestamp|timesince }} ago</div>
+                <div class="date"><i class="fa fa-clock"></i>{{object.timestamp|timesince}} ago</div>
                 <div class="views">
                   <a href="{{object.get_like_url}}">
                     <i class="fa fa-thumbs-up"></i>
+                    {{object.get_like_count}}
                   </a>
-                  {{object.get_like_count}}
                 </div>
-                <div class="views"><i class="fas fa-eye"></i>{{object.get_view_count}}</div>
+                <div class="views"><i class="fa fa-eye"></i>{{object.get_view_count}}</div>
                 <div class="comments meta-last"><i class="fa fa-comment"></i>{{object.get_comment_count}}</div>
               </div>
             </div>
             <div class="post-body">
-              <p class="lead">{{object.content}}</p>
+              <p>{{object.content}}</p>
             </div>
             <div class="post-tags">
               {% for tag in object.tags.all %}
@@ -60,55 +59,35 @@
               </a></div>
             <div class="post-comments">
               <header>
-                <h3 class="h6">Post Comments<span class="no-of-comments">(3)</span></h3>
+                <h3 class="h6">Post Comments<span class="no-of-comments">({{object.get_comment_count}})</span></h3>
               </header>
+              {% for comment in object.comment_set.all %}
               <div class="comment">
                 <div class="comment-header d-flex justify-content-between">
                   <div class="user d-flex align-items-center">
-                    <div class="image"><img src="img/user.svg" alt="..." class="img-fluid rounded-circle"></div>
-                    <div class="title"><strong>Jabi Hernandiz</strong><span class="date">May 2016</span></div>
-                  </div>
-                </div>
-                <div class="comment-body">
-                  <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut
-                    labore et dolore magna aliqua. Ut enim ad minim veniam.</p>
-                </div>
-              </div>
-              <div class="comment">
-                <div class="comment-header d-flex justify-content-between">
-                  <div class="user d-flex align-items-center">
-                    <div class="image"><img src="img/user.svg" alt="..." class="img-fluid rounded-circle"></div>
-                    <div class="title"><strong>Nikolas</strong><span class="date">May 2016</span></div>
-                  </div>
-                </div>
-                <div class="comment-body">
-                  <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut
-                    labore et dolore magna aliqua. Ut enim ad minim veniam.</p>
-                </div>
-              </div>
-              <div class="comment">
-                <div class="comment-header d-flex justify-content-between">
-                  {% for comment in object.comment_set.all %}
-                  <div class="user d-flex align-items-center">
-
-                    <div class="image"><img src="img/user.svg" alt="..." class="img-fluid rounded-circle"></div>
-                    <div class="title"><strong>John Doe</strong><span class="date">May 2016</span></div>
+                    <div class="image"><img src="{{comment.user.profile.profile_picture.url}}" alt="..."
+                        class="img-fluid rounded-circle"></div>
+                    <div class="title">
+                      <strong>{{comment.user}}</strong>
+                      <span class="date">{{object.timestamp|date:"d m | Y"}}
+                      </span>
+                    </div>
                   </div>
                 </div>
                 <div class="comment-body">
                   <p>
-                    {{ comment.content }}
+                    {{ comment.content}}
                   </p>
                 </div>
-                {% endfor %}
               </div>
+              {% endfor %}
             </div>
             <div class="add-comment">
               <header>
                 <h3 class="h6">Leave a reply</h3>
               </header>
               {% if request.user.is_authenticated %}
-              <form action="." class="commenting-form" method='POST'>
+              <form action="." class="commenting-form" method="POST">
                 {% csrf_token %}
                 <div class="row">
                   <div class="form-group col-md-12">
@@ -119,6 +98,11 @@
                   </div>
                 </div>
               </form>
+              {% else %}
+              <p>
+                to add a comment to this post, please
+                <a href="{% url 'account_login' %}">login</a>
+              </p>
               {% endif %}
             </div>
           </div>
@@ -143,21 +127,20 @@
         <header>
           <h3 class="h6">Latest Posts</h3>
         </header>
-        <div class="blog-posts">
-          {% for latest in recent_posts %}
-          <a href="#">
+        <div class="blog-posts"><a href="#">
+            {% for post in recent_posts %}
             <div class="item d-flex align-items-center">
-              <div class="image"><img src="{{latest.img.url}}" alt="..." class="img-fluid"></div>
-              <div class="title"><small>{{latest.title}}</small>
+              <div class="image"><img src="{{post.img.url}}" alt="..." class="img-fluid"></div>
+              <div class="title"><strong>{{post.title}}</strong>
                 <div class="d-flex align-items-center">
-                  <div class="views"><i class="fas fa-thumbs-up"></i> 500</div>
-                  <div class="views"><i class="fa fa-eye"></i> 500</div>
-                  <div class="comments"><i class="fa fa-comment"></i>12</div>
+                  <div class="views"><i class="fa fa-thumbs-up"></i>{{post.get_like_count}}</div>
+                  <div class="views"><i class="fa fa-eye"></i>{{post.get_view_count}}</div>
+                  <div class="comments"><i class="fa fa-comment"></i>{{post.get_comment_count}}</div>
                 </div>
               </div>
             </div>
-          </a>
-          {% endfor %}
+          </a><a href="#">
+            {% endfor %}
         </div>
       </div>
       <!-- Widget [Categories Widget]-->
