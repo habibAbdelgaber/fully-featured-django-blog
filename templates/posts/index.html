@@ -96,7 +96,7 @@
                   <a href="#">{{cat}}</a>
                   {% endfor %}
                 </div>
-              </div><a href="#">
+              </div><a href="{% url 'posts:detail' recent.slug %}">
                 <h6 class="h4">{{recent.title}}</h6>
               </a>
               <p class="text-muted">{{recent.content|truncatechars:90}}</p>

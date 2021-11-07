@@ -1,5 +1,6 @@
 from django.contrib import messages
 from django.urls import reverse
+from django.db.models import Count
 from django.shortcuts import render, redirect, get_object_or_404
 from django.views import generic
 from django.contrib.auth.decorators import login_required
@@ -27,6 +28,10 @@ class HomeView(generic.View):
         messages.info(request, 'thanks for subscribing to our newsletter!')
         return redirect('posts:home')
 
+
+class PostListView(generic.ListView):
+    model = Post
+    template_name = 'posts/blog.html'
 
 
 class PostDetailView(generic.DetailView):
@@ -56,10 +61,15 @@ class PostDetailView(generic.DetailView):
 
     def get_context_data(self, *args,**kwargs):
         recent_posts = Post.objects.order_by('-timestamp').filter(is_featured=True)[:3]
+        category_count = Post.objects.values('categories__name').annotate(Count('categories__name'))
+        tag_count = Post.objects.values('tags__name').annotate(Count('tags__name'))
+        print(category_count)
         context = super(PostDetailView, self).get_context_data(*args,**kwargs)
         # context['recent_posts'] = recent_posts
         context.update({
             'recent_posts': recent_posts,
+            'categories': category_count,
+            'tags': tag_count,
             'form': self.form
         })
         return context

@@ -9,97 +9,37 @@
       <div class="container">
         <div class="row">
           <!-- post -->
+          {% for object in object_list %}
           <div class="post col-xl-6">
-            <div class="post-thumbnail"><a href="post.html"><img src="img/blog-post-1.jpeg" alt="..."
+            <div class="post-thumbnail"><a href="post.html"><img src="{{object.img.url}}" alt="..."
                   class="img-fluid"></a></div>
             <div class="post-details">
               <div class="post-meta d-flex justify-content-between">
-                <div class="date meta-last">20 May | 2016</div>
-                <div class="category"><a href="#">Business</a></div>
-              </div><a href="post.html">
-                <h3 class="h4">Alberto Savoia Can Teach You About Interior</h3>
+                <div class="date meta-last">
+                  <span class="fa fa-calendar"></span>
+                  {{object.timestamp|date:"M d | Y"}}
+                </div>
+                <div class="category">
+                  {% for cat in object.categories.all %}
+                  <a href="#" class="badge badge-dark badge-pill text-white">{{cat}}</a>
+                  {% endfor %}
+                </div>
+              </div><a href="{{object.get_absolute_url}}">
+                <h3 class="h4">{{object.title}}</h3>
               </a>
-              <p class="text-muted">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor
-                incididunt ut labore.</p>
+              <p class="text-muted">{{object.content}}</p>
               <footer class="post-footer d-flex align-items-center"><a href="#"
                   class="author d-flex align-items-center flex-wrap">
-                  <div class="avatar"><img src="img/avatar-3.jpg" alt="..." class="img-fluid"></div>
-                  <div class="title"><span>John Doe</span></div>
+                  <div class="avatar"><img src="{{object.author.profile.profile_picture.url}}" alt="..."
+                      class="img-fluid"></div>
+                  <div class="title"><span>{{object.author}}</span></div>
                 </a>
-                <div class="date"><i class="icon-clock"></i> 2 months ago</div>
-                <div class="comments meta-last"><i class="icon-comment"></i>12</div>
+                <div class="date"><i class="fa fa-clock"></i>{{object.timestamp|timesince}} ago</div>
+                <div class="comments meta-last"><i class="fa fa-comment"></i>12</div>
               </footer>
             </div>
           </div>
-          <!-- post             -->
-          <div class="post col-xl-6">
-            <div class="post-thumbnail"><a href="post.html"><img src="img/blog-post-2.jpg" alt="..."
-                  class="img-fluid"></a></div>
-            <div class="post-details">
-              <div class="post-meta d-flex justify-content-between">
-                <div class="date meta-last">20 May | 2016</div>
-                <div class="category"><a href="#">Business</a></div>
-              </div><a href="post.html">
-                <h3 class="h4">Alberto Savoia Can Teach You About Interior</h3>
-              </a>
-              <p class="text-muted">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor
-                incididunt ut labore.</p>
-              <div class="post-footer d-flex align-items-center"><a href="#"
-                  class="author d-flex align-items-center flex-wrap">
-                  <div class="avatar"><img src="img/avatar-2.jpg" alt="..." class="img-fluid"></div>
-                  <div class="title"><span>John Doe</span></div>
-                </a>
-                <div class="date"><i class="icon-clock"></i> 2 months ago</div>
-                <div class="comments meta-last"><i class="icon-comment"></i>12</div>
-              </div>
-            </div>
-          </div>
-          <!-- post             -->
-          <div class="post col-xl-6">
-            <div class="post-thumbnail"><a href="post.html"><img src="img/blog-post-3.jpeg" alt="..."
-                  class="img-fluid"></a></div>
-            <div class="post-details">
-              <div class="post-meta d-flex justify-content-between">
-                <div class="date meta-last">20 May | 2016</div>
-                <div class="category"><a href="#">Business</a></div>
-              </div><a href="post.html">
-                <h3 class="h4">Alberto Savoia Can Teach You About Interior</h3>
-              </a>
-              <p class="text-muted">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor
-                incididunt ut labore.</p>
-              <div class="post-footer d-flex align-items-center"><a href="#"
-                  class="author d-flex align-items-center flex-wrap">
-                  <div class="avatar"><img src="img/avatar-3.jpg" alt="..." class="img-fluid"></div>
-                  <div class="title"><span>John Doe</span></div>
-                </a>
-                <div class="date"><i class="icon-clock"></i> 2 months ago</div>
-                <div class="comments meta-last"><i class="icon-comment"></i>12</div>
-              </div>
-            </div>
-          </div>
-          <!-- post -->
-          <div class="post col-xl-6">
-            <div class="post-thumbnail"><a href="post.html"><img src="img/blog-post-4.jpeg" alt="..."
-                  class="img-fluid"></a></div>
-            <div class="post-details">
-              <div class="post-meta d-flex justify-content-between">
-                <div class="date meta-last">20 May | 2016</div>
-                <div class="category"><a href="#">Business</a></div>
-              </div><a href="post.html">
-                <h3 class="h4">Alberto Savoia Can Teach You About Interior</h3>
-              </a>
-              <p class="text-muted">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor
-                incididunt ut labore.</p>
-              <div class="post-footer d-flex align-items-center"><a href="#"
-                  class="author d-flex align-items-center flex-wrap">
-                  <div class="avatar"><img src="img/avatar-1.jpg" alt="..." class="img-fluid"></div>
-                  <div class="title"><span>John Doe</span></div>
-                </a>
-                <div class="date"><i class="icon-clock"></i> 2 months ago</div>
-                <div class="comments meta-last"><i class="icon-comment"></i>12</div>
-              </div>
-            </div>
-          </div>
+          {% endfor %}
         </div>
         <!-- Pagination -->
         <nav aria-label="Page navigation example">
@@ -190,4 +130,4 @@
     </aside>
   </div>
 </div>
-{% block content %}
+{% endblock content %}
