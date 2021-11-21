@@ -1,0 +1,19 @@
+{% extends 'account/base.html' %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+<div class="ocntainer">
+    <div class="row my-3 justify-content-center">
+        <div class="col-md-9">
+            <h4>{{view_type|title}} Post</h4>
+            <form action="" method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+                {{form|crispy}}
+                <div class="d-grid">
+                    <button class="btn btn-primary" type="submit">{{view_type|title}} Post</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock content %}

@@ -1,0 +1,59 @@
+<!-- Widget [Search Bar Widget]-->
+<div class="widget search">
+    <header>
+        <h3 class="h6">Search the blog</h3>
+    </header>
+    <form action="#" class="search-form">
+        <div class="form-group">
+            <input type="search" placeholder="What are you looking for?">
+            <button type="submit" class="submit"><i class="fa fa-search"></i></button>
+        </div>
+    </form>
+</div>
+<!-- Widget [Latest Posts Widget]        -->
+<div class="widget latest-posts">
+    <header>
+        <h3 class="h6">Latest Posts</h3>
+    </header>
+    <div class="blog-posts"><a href="#">
+            {% for post in recent_posts %}
+            <div class="item d-flex align-items-center">
+                <div class="image"><img src="{{post.img.url}}" alt="..." class="img-fluid"></div>
+                <div class="title"><strong>{{post.title}}</strong>
+                    <div class="d-flex align-items-center">
+                        <div class="views"><i class="fa fa-thumbs-up"></i>{{post.get_like_count}}</div>
+                        <div class="views"><i class="fa fa-eye"></i>{{post.get_view_count}}</div>
+                        <div class="comments"><i class="fa fa-comment"></i>{{post.get_comment_count}}</div>
+                    </div>
+                </div>
+            </div>
+        </a><a href="#">
+            {% endfor %}
+    </div>
+</div>
+<!-- Widget [Categories Widget]-->
+<div class="widget categories">
+    <header>
+        <h3 class="h6">Categories</h3>
+    </header>
+
+    {% for cat in categories %}
+    <div class="item d-flex justify-content-between">
+        <a href="#">{{cat.categories__name}}</a>
+        <span>{{cat.categories__name__count}}</span>
+    </div>
+    {% endfor %}
+
+</div>
+<!-- Widget [Tags Cloud Widget]-->
+<div class="widget categories">
+    <header>
+        <h3 class="h6">Tags</h3>
+    </header>
+    {% for tag in tags %}
+    <div class="item d-flex justify-content-between">
+        <a href="#" class="badge badge-primary text-white badge-pill">#{{tag.tags__name}}</a>
+        <span class="badge badge-dark badge-pill text-white">{{tag.tags__name__count}}</span>
+    </div>
+    {% endfor %}
+</div>

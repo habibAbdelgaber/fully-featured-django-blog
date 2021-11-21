@@ -1,11 +1,11 @@
 from django.conf import settings
 from django.db import models
-from django.contrib.auth.models import AbstractUser
+from django.contrib.auth.models import AbstractUser, UserManager
 
 
 
 class User(AbstractUser):
-    pass
+    objects = UserManager()
 
 
 
@@ -16,4 +16,4 @@ class Profile(models.Model):
 
 
     def __str__(self):
-        return self.user.email
+        return str(self.user)

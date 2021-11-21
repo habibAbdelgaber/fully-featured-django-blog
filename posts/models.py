@@ -18,7 +18,7 @@ class Post(models.Model):
 
 
     def __str__(self):
-        return self.title
+        return str(self.title)
 
     
     @property
@@ -47,6 +47,9 @@ class Post(models.Model):
 
     def get_absolute_url(self):
         return reverse('posts:detail', kwargs={'slug': self.slug})
+
+    # def get_absolute_comment_url(self):
+    #     return reverse('posts:detail', kwargs={'slug': self.slug, 'pk': self.comment.pk})
     
     
     def get_like_url(self):

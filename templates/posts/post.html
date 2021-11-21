@@ -19,6 +19,11 @@
               </div>
             </div>
             <h1>{{object.title}}<a href="#"><i class="fa fa-bookmark-o"></i></a></h1>
+            <p>
+              <a class='btn btn-secondary' href="{% url 'posts:update-post' object.slug %}">Update post</a>
+              <a class='btn btn-danger' type="button" data-toggle="modal" data-target="#staticBackdrop"
+                href="{% url 'posts:delete-post' object.slug %}">Delete post</a>
+            </p>
             <div class="post-footer d-flex align-items-center flex-column flex-sm-row"><a href="#"
                 class="author d-flex align-items-center flex-wrap">
                 <div class="avatar"><img src="{{object.author.profile.profile_picture.url}}" alt="..."
@@ -77,6 +82,19 @@
                 <div class="comment-body">
                   <p>
                     {{ comment.content}}
+                    <br>
+                    <!-- comment update model functionality not done -->
+                    <a href="" type="button" data-toggle="modal" data-target="#staticBackdrop">
+                      <small>
+                        <span class="fa fa-edit fa-1x" style="font-size: 17px;"></span>
+                        <span class="fa fa-plus text-secondary" style="font-size: 14px;">
+                        </span>
+                      </small>
+                    </a>
+                    &nbsp;
+                    <a href=""><small><span class="fa fa-trash text-danger" style="font-size: 17px;"></span><span
+                          class="fa fa-minus text-danger" style="font-size: 14px;"></span></small></a>
+
                   </p>
                 </div>
               </div>
@@ -110,66 +128,39 @@
       </div>
     </main>
     <aside class="col-lg-4">
-      <!-- Widget [Search Bar Widget]-->
-      <div class="widget search">
-        <header>
-          <h3 class="h6">Search the blog</h3>
-        </header>
-        <form action="#" class="search-form">
-          <div class="form-group">
-            <input type="search" placeholder="What are you looking for?">
-            <button type="submit" class="submit"><i class="fa fa-search"></i></button>
-          </div>
+      {% include 'includes/sidebar.html' %}
+    </aside>
+  </div>
+</div>
+<!-- Button trigger modal -->
+<!-- <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#staticBackdrop">
+  Launch static backdrop modal
+</button> -->
+
+<!-- Modal -->
+<div class="modal fade" id="staticBackdrop" data-backdrop="static" data-keyboard="false" tabindex="-1"
+  aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="staticBackdropLabel">Are you sure you want delete {{object.title}}?</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form action="{% url 'posts:delete-post' object.slug %}" method="POST">
+          {% csrf_token %}
+          <!-- {{form|crispy}} -->
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          <button type="submit" class="btn btn-primary">Yes, Confirm</button>
         </form>
       </div>
-      <!-- Widget [Latest Posts Widget]        -->
-      <div class="widget latest-posts">
-        <header>
-          <h3 class="h6">Latest Posts</h3>
-        </header>
-        <div class="blog-posts"><a href="#">
-            {% for post in recent_posts %}
-            <div class="item d-flex align-items-center">
-              <div class="image"><img src="{{post.img.url}}" alt="..." class="img-fluid"></div>
-              <div class="title"><strong>{{post.title}}</strong>
-                <div class="d-flex align-items-center">
-                  <div class="views"><i class="fa fa-thumbs-up"></i>{{post.get_like_count}}</div>
-                  <div class="views"><i class="fa fa-eye"></i>{{post.get_view_count}}</div>
-                  <div class="comments"><i class="fa fa-comment"></i>{{post.get_comment_count}}</div>
-                </div>
-              </div>
-            </div>
-          </a><a href="#">
-            {% endfor %}
-        </div>
-      </div>
-      <!-- Widget [Categories Widget]-->
-      <div class="widget categories">
-        <header>
-          <h3 class="h6">Categories</h3>
-        </header>
-
-        {% for cat in categories %}
-        <div class="item d-flex justify-content-between">
-          <a href="#">{{cat.categories__name}}</a>
-          <span>{{cat.categories__name__count}}</span>
-        </div>
-        {% endfor %}
-
-      </div>
-      <!-- Widget [Tags Cloud Widget]-->
-      <div class="widget categories">
-        <header>
-          <h3 class="h6">Tags</h3>
-        </header>
-        {% for tag in tags %}
-        <div class="item d-flex justify-content-between">
-          <a href="#" class="badge badge-primary text-white badge-pill">#{{tag.tags__name}}</a>
-          <span class="badge badge-dark badge-pill text-white">{{tag.tags__name__count}}</span>
-        </div>
-        {% endfor %}
-      </div>
-    </aside>
+      <!-- <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="submit" class="btn btn-primary">Yes, Confirm</button>
+      </div> -->
+    </div>
   </div>
 </div>
 {% endblock content %}
