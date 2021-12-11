@@ -20,7 +20,9 @@
     {% for post in object_list %}
     <div class="row d-flex align-items-stretch">
       {% if not forloop.first and not forloop.last %}
-      <div class="image col-lg-6"><img src="{{post.img.url}}" alt="..."></div>
+      <div class="image col-lg-6"><img
+          src="{% if post.img %}{{post.img.url}}{% else %} http://via.placeholder.com/640x360 {% endif %}" alt="...">
+      </div>
       {% endif %}
       <div class="text col-lg-6">
         <div class="text-inner d-flex align-items-center">
@@ -54,7 +56,9 @@
         </div>
       </div>
       {% if forloop.first or forloop.last %}
-      <div class="image col-lg-6"><img src="{{post.img.url}}" alt="..."></div>
+      <div class="image col-lg-6"><img
+          src="{% if post.img %}{{post.img.url}}{% else %} http://via.placeholder.com/640x360 {% endif %}" alt="...">
+      </div>
       {% endif %}
     </div>
     {% endfor %}
@@ -85,8 +89,9 @@
       <div class="post col-md-4">
         <div class="card">
           <div class="card-body">
-            <div class="post-thumbnail"><a href="post.html"><img src="{{ recent.img.url }}" alt="..."
-                  class="img-fluid"></a>
+            <div class="post-thumbnail"><a href="post.html"><img
+                  src="{% if recent.img %}{{recent.img.url}}{% else %}http://via.placeholder.com/640x360{% endif %}"
+                  alt="..." class="img-fluid"></a>
             </div>
             <div class="post-details">
               <div class="post-meta d-flex justify-content-between">

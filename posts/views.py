@@ -2,7 +2,7 @@ from django.contrib import messages
 from django.forms.models import modelform_factory
 from django.urls import reverse
 from django.utils.translation import gettext_lazy as _
-from django.db.models import Count
+from django.db.models import Count, Q
 from django.shortcuts import render, redirect, get_object_or_404
 from django.views import generic
 from django.contrib.auth.decorators import login_required
@@ -10,6 +10,7 @@ from subscribers.models import NewsLetter
 from django.contrib.auth.mixins import LoginRequiredMixin
 from .forms import CommentForm, PostForm
 from .models import Post, PostLike, PostView
+from django.core.paginator import Paginator
 
 
 class HomeView(generic.View):
@@ -155,3 +156,12 @@ def get_post_like(request, slug):
         post=post,
     )
     return redirect('posts:detail', slug=slug)
+
+
+def search(request):
+    queryset = Post.objects.all()
+    query = request.GET.get('query')
+    if query:
+        posts = queryset.filter(Q(title__icontains=query)|Q(content__icontains=query))
+    context = {'posts': posts}
+    return render(request, 'posts/search.html', context)

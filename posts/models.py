@@ -15,6 +15,8 @@ class Post(models.Model):
     timestamp = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
     is_featured = models.BooleanField(default=False)
+    previous_post = models.ForeignKey('self', blank=True, null=True, related_name='previous', on_delete=models.SET_NULL)
+    next_post = models.ForeignKey('self', blank=True, null=True, related_name='next', on_delete=models.SET_NULL)
 
 
     def __str__(self):

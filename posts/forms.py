@@ -12,7 +12,7 @@ class PostForm(forms.ModelForm):
         }))
     class Meta:
         model = Post
-        fields = ['title', 'content', 'categories', 'tags', 'is_featured', 'img']
+        fields = ['title', 'content', 'categories', 'tags', 'is_featured', 'previous_post', 'img']
 
         widgets = {
             'tags': forms.CheckboxSelectMultiple(),

@@ -3,9 +3,9 @@
     <header>
         <h3 class="h6">Search the blog</h3>
     </header>
-    <form action="#" class="search-form">
+    <form action="{% url 'posts:search' %}" method="GET" class="search-form">
         <div class="form-group">
-            <input type="search" placeholder="What are you looking for?">
+            <input type="search" name='query' placeholder="What are you looking for?">
             <button type="submit" class="submit"><i class="fa fa-search"></i></button>
         </div>
     </form>
@@ -18,7 +18,9 @@
     <div class="blog-posts"><a href="#">
             {% for post in recent_posts %}
             <div class="item d-flex align-items-center">
-                <div class="image"><img src="{{post.img.url}}" alt="..." class="img-fluid"></div>
+                <div class="image"><img
+                        src="{% if post.img %}{{post.img.url}}{% else %} http://via.placeholder.com/640x360 {% endif %}"
+                        alt="..." class="img-fluid"></div>
                 <div class="title"><strong>{{post.title}}</strong>
                     <div class="d-flex align-items-center">
                         <div class="views"><i class="fa fa-thumbs-up"></i>{{post.get_like_count}}</div>

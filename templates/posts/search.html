@@ -1,0 +1,7 @@
+{% extends 'account/base.html' %}
+
+{% block content %}
+{% for post in posts %}
+<p><a href="{% url 'posts:detail' post.slug %}">{{post.title}}</a></p>
+{% endfor %}
+{% endblock content %}
