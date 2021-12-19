@@ -7,10 +7,12 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.views import generic
 from django.contrib.auth.decorators import login_required
 from subscribers.models import NewsLetter
-from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin, UserPassesTestMixin, AccessMixin
 from .forms import CommentForm, PostForm
 from .models import Post, PostLike, PostView
 from django.core.paginator import Paginator
+
+from .mixins import HasPermissionToPost, PostPermissionRequiredMixin
 
 
 class HomeView(generic.View):
@@ -52,7 +54,7 @@ class PostListView(generic.ListView):
         return context
 
 
-class CreatePostView(generic.CreateView):
+class CreatePostView(LoginRequiredMixin, HasPermissionToPost, generic.CreateView):
     model = Post
     form_class = PostForm
     # fields = ['author', 'title', 'slug', 'content', 'categories', 'tags', 'is_featured', 'img']
@@ -117,7 +119,7 @@ class PostDetailView(generic.DetailView):
 
 
 
-class PostUpdateView(generic.UpdateView):
+class PostUpdateView(LoginRequiredMixin, PermissionRequiredMixin, generic.UpdateView):
     model = Post
     form_class = PostForm
     # fields = ['author', 'title', 'slug', 'content', 'categories', 'tags', 'is_featured', 'img']
@@ -133,7 +135,7 @@ class PostUpdateView(generic.UpdateView):
         return context
 
 
-class PostDeleteView(generic.DeleteView):
+class PostDeleteView(LoginRequiredMixin, generic.DeleteView):
     model = Post
     template_name = 'posts/post.html'
     def get_success_url(self):

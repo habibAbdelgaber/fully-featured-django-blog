@@ -5,6 +5,7 @@ from django.contrib.auth.models import AbstractUser, UserManager
 
 
 class User(AbstractUser):
+    # can_create_post = models.BooleanField(default=False)
     objects = UserManager()
 
 
