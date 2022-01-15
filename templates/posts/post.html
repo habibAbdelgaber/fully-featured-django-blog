@@ -21,7 +21,7 @@
               </div>
             </div>
             <h1>{{object.title}}<a href="#"><i class="fa fa-bookmark-o"></i></a></h1>
-            {% if object.author == request.user.is_authenticated %}
+            {% if request.user == object.author %}
             <p>
               <a class='btn btn-secondary' href="{% url 'posts:update-post' object.slug %}">Update post</a>
               <a class='btn btn-danger' type="button" data-toggle="modal" data-target="#staticBackdrop"
@@ -30,8 +30,9 @@
             {% endif %}
             <div class="post-footer d-flex align-items-center flex-column flex-sm-row"><a href="#"
                 class="author d-flex align-items-center flex-wrap">
-                <div class="avatar"><img src="{{object.author.profile.profile_picture.url}}" alt="..."
-                    class="img-fluid"></div>
+                <div class="avatar"><img
+                    src="{% if object.author.profile.profile_picture %}{{object.author.profile.profile_picture.url}}{% endif %}"
+                    alt="..." class="img-fluid"></div>
                 <div class="title"><span>{{object.author}}</span></div>
               </a>
               <div class="d-flex align-items-center flex-wrap">

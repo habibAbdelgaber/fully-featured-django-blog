@@ -34,10 +34,11 @@
                 <ul class="navbar-nav ml-auto">
                     <li class="nav-item"><a href="{% url 'posts:post-list' %}" class="nav-link active ">Blog</a>
                     </li>
-                    <li class="nav-item"><a href="#" class="nav-link ">Contact</a>
+                    <li class="nav-item"><a href="{% url 'users:contact' %}" class="nav-link ">Contact</a>
                     </li>
                     {% if request.user.is_authenticated %}
                     <li class="nav-item"><a href="{% url 'account_logout' %}" class="nav-link ">Logout</a>
+                    <li class="nav-item"><a href="#" class="nav-link ">{{request.user.username}}</a>
                         {% else %}
                     <li class="nav-item"><a href="{% url 'account_login' %}" class="nav-link ">Sign in</a>
                     <li class="nav-item"><a href="{% url 'account_signup' %}" class="nav-link ">Sign up</a>

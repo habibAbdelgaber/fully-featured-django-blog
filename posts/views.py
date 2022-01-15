@@ -12,7 +12,7 @@ from .forms import CommentForm, PostForm
 from .models import Post, PostLike, PostView
 from django.core.paginator import Paginator
 
-from .mixins import HasPermissionToPost, PostPermissionRequiredMixin
+from .mixins import HasPermissionTo, HasPermissionToPost, PostPermissionRequiredMixin
 
 
 class HomeView(generic.View):
@@ -119,7 +119,7 @@ class PostDetailView(generic.DetailView):
 
 
 
-class PostUpdateView(LoginRequiredMixin, PermissionRequiredMixin, generic.UpdateView):
+class PostUpdateView(LoginRequiredMixin, HasPermissionTo, generic.UpdateView):
     model = Post
     form_class = PostForm
     # fields = ['author', 'title', 'slug', 'content', 'categories', 'tags', 'is_featured', 'img']
@@ -135,7 +135,7 @@ class PostUpdateView(LoginRequiredMixin, PermissionRequiredMixin, generic.Update
         return context
 
 
-class PostDeleteView(LoginRequiredMixin, generic.DeleteView):
+class PostDeleteView(LoginRequiredMixin, HasPermissionTo, generic.DeleteView):
     model = Post
     template_name = 'posts/post.html'
     def get_success_url(self):

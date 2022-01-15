@@ -1,0 +1,20 @@
+{% extends 'account/base.html' %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+<div class="container">
+    <div class="row my-3 justify-content-center">
+        <div class="col-md-7">
+            <form action="" method='POST'>
+                {% csrf_token %}
+                {{ form|crispy }}
+                <div class="d-grid">
+                    <button class="btn btn-primary btn-block">
+                        Send a message
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock content %}

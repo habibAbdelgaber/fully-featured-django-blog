@@ -10,6 +10,16 @@ class HasPermissionToPost(object):
             return redirect('/')
         return super().dispatch(request, *args, **kwargs)
 
+class HasPermissionTo(object):
+    # permission_required = 'posts.object.author'
+    def dispatch(self, request, *args, **kwargs):
+        post = Post.objects.get(author=self.request.user)
+        if  request.user != post.author and not request.user.is_authenticated:
+            messages.info(request, 'Sorry, you do no have permission to post, please contact admin!')
+            return redirect('/')
+        return super().dispatch(request, *args, **kwargs)
+
+
 
 
 class PostPermissionRequiredMixin(PermissionRequiredMixin):
