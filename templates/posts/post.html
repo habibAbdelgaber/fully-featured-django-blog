@@ -49,6 +49,7 @@
             </div>
             <div class="post-body">
               <p>{{object.content}}</p>
+              <p>{{object.description| safe}}</p>
             </div>
             <div class="post-tags">
               {% for tag in object.tags.all %}

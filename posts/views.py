@@ -119,7 +119,7 @@ class PostDetailView(generic.DetailView):
 
 
 
-class PostUpdateView(LoginRequiredMixin, HasPermissionTo, generic.UpdateView):
+class PostUpdateView(LoginRequiredMixin, generic.UpdateView):
     model = Post
     form_class = PostForm
     # fields = ['author', 'title', 'slug', 'content', 'categories', 'tags', 'is_featured', 'img']
@@ -135,7 +135,7 @@ class PostUpdateView(LoginRequiredMixin, HasPermissionTo, generic.UpdateView):
         return context
 
 
-class PostDeleteView(LoginRequiredMixin, HasPermissionTo, generic.DeleteView):
+class PostDeleteView(LoginRequiredMixin, generic.DeleteView):
     model = Post
     template_name = 'posts/post.html'
     def get_success_url(self):

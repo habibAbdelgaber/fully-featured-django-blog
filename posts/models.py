@@ -2,13 +2,14 @@ from django.conf import settings
 from django.db import models
 from django.shortcuts import redirect
 from django.urls import reverse
-
+from tinymce import HTMLField
 
 class Post(models.Model):
     author = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     title = models.CharField(max_length=200)
     slug = models.SlugField()
     content = models.TextField()
+    description = HTMLField('content', blank=True, null=True)
     img = models.ImageField(upload_to='img/images/',blank=True, null=True)
     categories = models.ManyToManyField('Category', blank=True)
     tags = models.ManyToManyField('Tag', blank=True)

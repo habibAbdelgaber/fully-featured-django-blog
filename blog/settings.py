@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     'subscribers.apps.SubscribersConfig',
 
     # 3rd party apps
+    'tinymce',
     'crispy_forms',
     "crispy_bootstrap5",
     'allauth',
